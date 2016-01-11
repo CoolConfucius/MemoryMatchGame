@@ -1,21 +1,11 @@
 $(document).ready(init);
 
-// var suits = ['\u2663', '\u2662', '\u2660', '\u2661'];
-// var ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-// var deck = []; 
-// suits.forEach(function(suit){
-//   ranks.forEach(function(rank){
-//     var card = {};
-//     card.rank = rank;
-//     card.suit = suit; 
-//     deck.push(rank + suit);
-//   });
-// });
-
+var suits = ['\u2663', '\u2662', '\u2660', '\u2661'];
 var state = 'hit play'; 
 var $hold; 
 var $roof; 
 var $top; 
+var $play; 
 var points = 0; 
 
 function shuffle(deck) {
@@ -37,7 +27,13 @@ function shuffle(deck) {
 var numbers = []; 
 function generateNumbs(){
   for (var i = 0; i < 8; i++) {
-    var random = Math.floor(Math.random()*12)+1; 
+    var random = Math.floor(Math.random()*13)+1; 
+    if (random === 1) {random = "Ace"};
+    if (random === 11) {random = "Jack"};
+    if (random === 12) {random = "Queen"};
+    if (random === 13) {random = "King"};
+    var suit = Math.floor(Math.random()*4);
+    random = random + suits[suit]; 
     numbers.push(random); numbers.push(random); 
   };
   console.log(numbers);
@@ -48,24 +44,35 @@ var table = [];
 function init(){
   $roof = $('#roof');
   $top = $('#top');
-  $('#play').click(hitPlay); 
+  $play = $('#play');
+  $play.click(hitPlay); 
   $('.card').click(hitCard); 
 
 }
 
 function hitPlay(event){
-  generateNumbs(); 
-  shuffle(numbers); 
-  console.log(numbers);
-  assign(); 
-  state = 'pick card'; 
-  $('#roof').text(state);
+  if (state === 'You win!') {
+    reset(); 
+  };
+
+  if (state === 'You win!' || state === 'hit play') {
+    generateNumbs(); 
+    shuffle(numbers); 
+    console.log(numbers);
+    assign(); 
+    state = 'pick card'; 
+    $roof.text(state);    
+    $play.text('reset'); 
+  } 
+  // else {
+  //   reset();
+  // }
 }
 
 function hitCard(event){
   if (state === 'pick card') {
     $this = $(this); 
-    $this.css('background-color', 'white');
+    $this.css('background-color', 'white').css('color', 'black');
     $hold = $this; 
     $hold.off(); 
     text = $hold.text(); 
@@ -75,26 +82,27 @@ function hitCard(event){
     if ($this.text()===text) {
       $this.css('background-color', 'black');
       $hold.css('background-color', 'black');
-      $this.css('color', 'black');
-      $hold.css('color', 'black');
+      $this.css('color', 'white');
+      $hold.css('color', 'white');
       $this.off(); 
       $hold.off(); 
       points++; 
       if (points===8) {
         state = 'You win!'; 
         alert('You win!'); 
+        $play.text("Play Again"); 
       } else {
         state = 'pick card'; 
       }
       text = ' '; 
     } else if ($this.text() !== text) {      
-      $this.css('background-color', 'white');
+      $this.css('background-color', 'white').css('color', 'black');
       text = ' '; 
       state = 'nope! click anywhere to continue'; 
     };
   } else {
-    $this.css('background-color', 'green');
-    $hold.css('background-color', 'green');
+    $this.css('background-color', 'green').css('color', 'green');
+    $hold.css('background-color', 'green').css('color', 'green');
     $hold.click(hitCard); 
     state = 'pick card'; 
   }
@@ -102,9 +110,7 @@ function hitCard(event){
   $roof.text(state);
 }
 
-function assign(event){
-  console.log($('#table'));
-  console.log($('#table').children().eq(4));
+function assign(event){  
   var row = 0; 
   var col = 0; 
   while(row < 4){
@@ -113,10 +119,31 @@ function assign(event){
         col = 0; 
         row++; 
       };
-      console.log('row ', row, 'col ', col);
       $('#table').children().eq(row).children().eq(col).text(numbers[i]);
       col++; 
     };
   }
 }
 
+function reset(event){
+  table = []; 
+  // var row = 0; 
+  // var col = 0; 
+  // while(row < 4){
+  //   for (var i = 0; i < numbers.length; i++) {      
+  //     if (col === 4) { 
+  //       col = 0; 
+  //       row++; 
+  //     };
+  //     $('#table').children().eq(row).children().eq(col).text(numbers[i]);
+  //     col++; 
+  //   };
+  // } 
+  $('.card').css('background-color', 'green').css('color', 'green').click(hitCard);
+  points = 0; 
+  numbers = []; 
+  generateNumbs(); 
+  shuffle(numbers); 
+  console.log(numbers);
+  assign(); 
+}
