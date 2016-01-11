@@ -1,0 +1,83 @@
+body {
+  background-color: black; 
+  text-align: center; 
+}
+#house{
+  padding-top: 50px; 
+  padding-bottom: 50px;
+  text-align: center;
+  background-color: black; 
+  border: solid;
+  border-width: 10px; 
+  border-color: black;
+  width: 90%;  
+  margin: 0 auto; 
+}
+#house .row {
+  text-align: center; 
+}
+#house .row div{
+  background-color: green; 
+  border: solid;
+  text-align: center; 
+  display: inline-block;
+}
+#table{
+  text-align: center; 
+  margin: 0 auto; 
+  /*width: 80%; 
+  height: 80%;*/
+  display: inline-block;
+}
+#table .row{
+  text-align: center;
+  margin: auto; 
+  margin-bottom: 5px;
+  /*width: 100%; 
+  height: 25%;*/
+}
+.card{
+  margin: 0 auto; 
+  background-color: green;
+  height: 150px; 
+  width: 150px; 
+  /*height: 30%; 
+  width: 20%;*/
+  color: green;
+  border-color: black; 
+  border: solid;
+  display: inline-block;
+  font-size: 24px; 
+
+}
+#play{
+  background-color: green; 
+  width: 90%;
+  height: 100px; 
+  border: solid;
+  display: inline-block;
+  border-top-color: green; 
+  margin-top: 0px; 
+}
+#roof{
+  width: 60%;
+  height: 60px; 
+  border-top-color: green; 
+  border-bottom-color: green; 
+  margin-bottom: 0px; 
+  margin-top: 0px; 
+}
+#top{
+  width: 30%;
+  height: 30px; 
+  border-bottom-color: green; 
+  margin-bottom: 0px; 
+}
+/*#chimney{
+  width: 20%;
+  height: 120px; 
+  border-top-color: green; 
+  border-bottom-color: green; 
+  margin-bottom: 0px; 
+  margin-top: 0px;  
+}*/
